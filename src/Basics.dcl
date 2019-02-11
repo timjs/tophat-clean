@@ -13,6 +13,7 @@ import StdList
 import StdMaybe
 import StdTuple
 
+import Data.Func
 import Data.GenEq
 
 
@@ -22,26 +23,6 @@ import Data.GenEq
 
 :: Unit :== ()
 :: List a :== [a]
-
-
-
-// Functions ///////////////////////////////////////////////////////////////////
-
-
-(<|) infixr 0 // :: (a -> b) a -> b
-(<|) f x :== f x
-
-
-(|>) infixl 1 // :: a (a -> b) -> b
-(|>) x f :== f x
-
-
-(<<<) infixr 9 // :: (b -> c) (a -> b) -> a -> c
-(<<<) f g x :== f (g x)
-
-
-(>>>) infixr 9 // :: (a -> b) (b -> c) -> a -> c
-(>>>) g f x :== f (g x)
 
 
 

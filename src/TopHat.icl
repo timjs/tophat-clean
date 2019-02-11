@@ -77,7 +77,7 @@ select label default ref = 'I'.updateMultipleChoiceWithShared label [] ref defau
 
 
 (>>*) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
-(>>*) task options = 'I'.step task (const Nothing) <| map trans options
+(>>*) task options = 'I'.step task (const Nothing) $ map trans options
 where
   trans ( p, t ) = 'I'.OnValue ('I'.ifValue p t)
 
@@ -91,7 +91,7 @@ where
 
 
 (>?*) infixl 1 :: (Task a) (List ( String, a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
-(>?*) task options = 'I'.step task (const Nothing) <| map trans options
+(>?*) task options = 'I'.step task (const Nothing) $ map trans options
 where
   trans ( a, p, t ) = 'I'.OnAction ('I'.Action a) ('I'.ifValue p t)
 

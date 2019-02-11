@@ -32,21 +32,21 @@ count_choice n =
 
 count_shared :: (Ref Int) -> Task ( Int, Unit )
 count_shared n =
-  forever <|
+  forever $
     watch "Clicks" n <&> ((n <<- succ) <?> (n <<- const 0))
 
 
 count_list :: Int -> Task Int
 count_list n =
   view "Clicks" n >?*
-    [ ( "Click", always, const <| count_list (n + 1) )
-    , ( "Reset", always, const <| count_list 0 )
+    [ ( "Click", always, const $ count_list (n + 1) )
+    , ( "Reset", always, const $ count_list 0 )
     ]
 
 
 main :: Task ( Int, Unit )
 main =
-  withRef 0 <| \n ->
+  withRef 0 $ \n ->
     count_shared n
 
 
