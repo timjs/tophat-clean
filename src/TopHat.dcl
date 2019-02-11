@@ -73,18 +73,11 @@ always :== const True
 fail :: Task a
 
 
+// Looping /////////////////////////////////////////////////////////////////////
+
+forever :: (Task a) -> Task a | Storable a
+
+
 // Startup /////////////////////////////////////////////////////////////////////
 
 run :: (Task a) *World -> *World | Storable a
-
-
-/*
-
-// Looping //
-
-forever :: (Task a) -> Task a | Storable a
-forever t =
-  t >>= \_ -> t
-
-
-*/
