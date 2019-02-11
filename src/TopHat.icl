@@ -15,12 +15,13 @@ from iTasks import class Startable, instance Startable (Task a)
 
 //XXX: Needs reimport because of weird bug using qualified import...
 class Storable a | 'I'.iTask a
-// :: Ref a :== 'I'.SDSLens Unit a a
+:: Ref a :== 'I'.Shared a
 :: Task a :== 'I'.Task a
 
 
 
 // Basic combinators ///////////////////////////////////////////////////////////
+
 
 // Editors //
 
@@ -37,33 +38,32 @@ enter :: Message -> Task a | Storable a
 enter label = 'I'.enterInformation label []
 
 
-/*
 // Shares //
 
 
-ref :: Message a -> Ref a | Storable a
-ref label value = sharedStore label value
+// ref :: Message a -> Task (Ref a) | Storable a
+// ref label value = 'I'.return <| 'I'.sharedStore label value
 
 
 withRef :: a ((Ref a) -> Task b) -> Task b | Storable a & Storable b
-withRef value cont = withShared value cont
+withRef value cont = 'I'.withShared value cont
 
 
 modify :: (Ref a) (a -> a) -> Task a | Storable a
-modify ref fun = upd ref fun
+modify ref fun = 'I'.upd fun ref
 
 
 watch :: Message (Ref a) -> Task a | Storable a
-watch label ref = viewSharedInformation label [] ref
+watch label ref = 'I'.viewSharedInformation label [] ref
 
 
 update :: Message (Ref a) -> Task a | Storable a
-update label ref = updateSharedInformation label [] ref
+update label ref = 'I'.updateSharedInformation label [] ref
 
 
-select :: Message (List a) (Ref a) -> Task (List a) | Storable a
-select label default ref = updateMultipleChoiceWithShared label [] ref default
-*/
+select :: Message (List a) (Ref (List a)) -> Task (List a) | Storable a
+select label default ref = 'I'.updateMultipleChoiceWithShared label [] ref default
+
 
 
 // Startup /////////////////////////////////////////////////////////////////////

@@ -1,52 +1,66 @@
 definition module TopHat
 
 
+
 import Basics
 
 import qualified iTasks as I
 
 
+
 // Types ///////////////////////////////////////////////////////////////////////
 
+
 class Storable a | 'I'.iTask a
-// :: Ref a :== 'I'.SDSLens Unit a a
+:: Ref a
 :: Task a
 
-// class Storable a | iTask a
+
 :: Message :== String
+:: Label :== String
+
 
 
 // Editors /////////////////////////////////////////////////////////////////////
+
 
 view :: Message a -> Task a | Storable a
 edit :: Message a -> Task a | Storable a
 enter :: Message -> Task a | Storable a
 
-/*
+
 
 // References //////////////////////////////////////////////////////////////////
 
 // Create //
 
-ref :: Message a -> Task (Ref a) | Storable a
+
+// ref :: Label a -> Task (Ref a) | Storable a
 withRef :: a ((Ref a) -> Task b) -> Task b | Storable a & Storable b
 
 
+
 // Modify //
+
 
 (<<-) infixr 2
 (<<-) :== modify
 modify :: (Ref a) (a -> a) -> Task a | Storable a
 
 
+
 // Watch //
+
 
 watch :: Message (Ref a) -> Task a | Storable a
 update :: Message (Ref a) -> Task a | Storable a
-select :: Message (List a) (Ref a) -> Task (List a) | Storable a
-*/
+select :: Message (List a) (Ref (List a)) -> Task (List a) | Storable a
+
+
 
 // Startup /////////////////////////////////////////////////////////////////////
+
+
 
 run :: (Task a) *World -> *World | Storable a
 
