@@ -13,6 +13,8 @@ import StdList
 import StdMaybe
 import StdTuple
 
+import Data.GenEq
+
 
 
 // Synonyms ////////////////////////////////////////////////////////////////////
