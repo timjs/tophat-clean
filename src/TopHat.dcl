@@ -48,6 +48,14 @@ select :: Message (List a) (Ref (List a)) -> Task (List a) | Storable a
 
 always :== const True
 
+// Steps //
+
+(>>>) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
+(>>=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b
+
+(>?>) infixl 1 :: (Task a) (List ( String, a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
+(>?=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b
+
 
 // Parallels ///////////////////////////////////////////////////////////////////
 
@@ -73,39 +81,6 @@ run :: (Task a) *World -> *World | Storable a
 
 
 /*
-// Steps //
-
-always :== const True
-
-// Internal step (>>*)
-(>>>) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
-(>>>) task options = task >>* map trans options
-where
-  trans ( p, t ) = OnValue (ifValue p t)
-
-// Internal bind (>>~)
-(>>=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b
-(>>=) task cont = task >>> [ ( always, cont ) ]
-
-// Internal ignore (>>|)
-(>>) infixl 1 :: (Task a) (Task b) -> Task b | Storable a & Storable b
-(>>) task next = task >>= \_ -> next
-
-// External step (>>*)
-(>?>) infixl 1 :: (Task a) (List ( String, a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
-(>?>) task options = task >>* map trans options
-where
-  trans ( a, p, t ) = OnAction (Action a) (ifValue p t)
-
-// External bind (>>=)
-(>?=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b
-(>?=) task cont = task >?> [ ( "Continue", always, cont ) ]
-
-// External ignore (>>= \_ -> )
-(>?) infixl 1 :: (Task a) (Task b) -> Task b | Storable a & Storable b
-(>?) task next = task >?= \_ -> next
-
-
 
 // Looping //
 
