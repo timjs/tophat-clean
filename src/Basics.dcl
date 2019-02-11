@@ -1,6 +1,7 @@
 definition module Basics
 
 
+import StdFunc
 import StdBool
 import StdList
 
