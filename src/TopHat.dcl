@@ -10,7 +10,7 @@ import qualified iTasks as I
 
 class Storable a | 'I'.iTask a
 // :: Ref a :== 'I'.SDSLens Unit a a
-:: Task a :== 'I'.Task a
+:: Task a
 
 // class Storable a | iTask a
 :: Message :== String
