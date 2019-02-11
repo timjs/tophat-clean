@@ -76,28 +76,28 @@ select label default ref = 'I'.updateMultipleChoiceWithShared label [] ref defau
 // Steps ///////////////////////////////////////////////////////////////////////
 
 
-(>>>) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
-(>>>) task options = 'I'.step task (const Nothing) <| map trans options
+(>>*) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
+(>>*) task options = 'I'.step task (const Nothing) <| map trans options
 where
   trans ( p, t ) = 'I'.OnValue ('I'.ifValue p t)
 
 
 (>>=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b
-(>>=) task cont = task >>> [ ( always, cont ) ]
+(>>=) task cont = task >>* [ ( always, cont ) ]
 
 
 // (>>) infixl 1 :: (Task a) (Task b) -> Task b | Storable a & Storable b
 // (>>) task next = task >>= \_ -> next
 
 
-(>?>) infixl 1 :: (Task a) (List ( String, a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
-(>?>) task options = 'I'.step task (const Nothing) <| map trans options
+(>?*) infixl 1 :: (Task a) (List ( String, a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
+(>?*) task options = 'I'.step task (const Nothing) <| map trans options
 where
   trans ( a, p, t ) = 'I'.OnAction ('I'.Action a) ('I'.ifValue p t)
 
 
 (>?=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b
-(>?=) task cont = task >?> [ ( "Continue", always, cont ) ]
+(>?=) task cont = task >?* [ ( "Continue", always, cont ) ]
 
 
 // (>?) infixl 1 :: (Task a) (Task b) -> Task b | Storable a & Storable b
@@ -129,7 +129,7 @@ where
 
 
 (<?>) infixr 3 :: (Task a) (Task a) -> Task a | Storable a
-(<?>) fst snd = 'I'.return () >?> [ ( "Left" , always, const fst ), (  "Right", always, const snd ) ]
+(<?>) fst snd = 'I'.return () >?* [ ( "Left" , always, const fst ), (  "Right", always, const snd ) ]
 
 
 

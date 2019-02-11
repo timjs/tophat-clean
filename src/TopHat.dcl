@@ -48,10 +48,10 @@ select :: Message (List a) (Ref (List a)) -> Task (List a) | Storable a
 
 always :== const True
 
-(>>>) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
+(>>*) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
 (>>=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b
 
-(>?>) infixl 1 :: (Task a) (List ( String, a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
+(>?*) infixl 1 :: (Task a) (List ( String, a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
 (>?=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b
 
 

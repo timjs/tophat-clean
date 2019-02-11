@@ -1,10 +1,17 @@
 definition module Basics
 
 
-import StdFunc
+import StdFunctions
+
 import StdBool
-import StdMaybe
+import StdChar
+import StdInt
+import StdReal
+import StdString
+
 import StdList
+import StdMaybe
+import StdTuple
 
 
 
@@ -23,8 +30,20 @@ import StdList
 (<|) f x :== f x
 
 
-(|>) infixr 0 // :: a (a -> b) -> b
+(|>) infixl 1 // :: a (a -> b) -> b
 (|>) x f :== f x
+
+
+(<<<) infixr 9 // :: (b -> c) (a -> b) -> a -> c
+(<<<) f g x :== f (g x)
+
+
+(>>>) infixr 9 // :: (a -> b) (b -> c) -> a -> c
+(>>>) g f x :== f (g x)
+
+
+
+// Booleans ////////////////////////////////////////////////////////////////////
 
 
 (|||) infixr 2 //:: (a -> Bool) -> (a -> Bool) -> a -> Bool
