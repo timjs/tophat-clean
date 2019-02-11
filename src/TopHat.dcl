@@ -2,12 +2,16 @@ definition module TopHat
 
 import Basics
 
-import qualified iTasks as I
+// import qualified iTasks as I
+from iTasks import class iTask
+from iTasks import generic gEq, generic gDefault, generic JSONDecode, generic JSONEncode, generic gText, generic gEditor
+from iTasks import :: JSONNode, :: TextFormat, :: Editor
 
 
 // Types ///////////////////////////////////////////////////////////////////////
 
-class Storable a | 'I'.iTask a
+// class Storable a | 'I'.iTask a
+class Storable a | iTask a
 
 :: Ref a
 :: Task a
@@ -22,11 +26,14 @@ view :: Message a -> Task a | Storable a
 edit :: Message a -> Task a | Storable a
 enter :: Message -> Task a | Storable a
 
+pure :== view ""
+
 
 // References //////////////////////////////////////////////////////////////////
 
 // Create //
 
+globalRef :: Label a -> Ref a | Storable a
 withRef :: a ((Ref a) -> Task b) -> Task b | Storable a & Storable b
 
 
@@ -48,8 +55,13 @@ select :: Message (List a) (Ref (List a)) -> Task (List a) | Storable a
 
 always :== const True
 
+// Internal //
+
 (>>*) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
 (>>=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b
+
+
+// External //
 
 (>?*) infixl 1 :: (Task a) (List ( String, a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
 (>?=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b

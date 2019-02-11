@@ -48,8 +48,8 @@ enter label = 'I'.enterInformation label []
 // References //////////////////////////////////////////////////////////////////
 
 
-// ref :: Message a -> Task (Ref a) | Storable a
-// ref label value = 'I'.return <| 'I'.sharedStore label value
+globalRef :: Label a -> Ref a | Storable a
+globalRef label value = 'I'.sharedStore label value
 
 
 withRef :: a ((Ref a) -> Task b) -> Task b | Storable a & Storable b
