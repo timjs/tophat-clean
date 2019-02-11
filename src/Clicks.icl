@@ -44,10 +44,11 @@ count_list n =
     ]
 
 
-main :: Task ( Int, Unit )
+
 main =
   withRef 0 $ \n ->
     count_shared n
+  // count_choice 0
 
 
 
