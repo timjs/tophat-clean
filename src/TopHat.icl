@@ -129,7 +129,7 @@ where
 
 
 (<?>) infixr 3 :: (Task a) (Task a) -> Task a | Storable a
-(<?>) fst snd = 'I'.return () >?* [ ( "Left" , always, const fst ), (  "Right", always, const snd ) ]
+(<?>) fst snd = pure () >?* [ ( "Left" , always, const fst ), (  "Right", always, const snd ) ]
 
 
 
@@ -137,7 +137,7 @@ where
 
 
 fail :: Task a
-fail = 'I'.transform (\_ -> 'I'.NoValue) ('I'.return ())
+fail = 'I'.transform (\_ -> 'I'.NoValue) $ pure ()
 
 
 
@@ -146,7 +146,7 @@ fail = 'I'.transform (\_ -> 'I'.NoValue) ('I'.return ())
 
 forever :: (Task a) -> Task a | Storable a
 forever t =
-  t >>= \_ -> t
+  t >>= \_ -> forever t
 
 
 

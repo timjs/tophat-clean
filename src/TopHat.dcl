@@ -2,6 +2,9 @@ definition module TopHat
 
 import Basics
 
+//FIXME: Due to a bug in Clean generics,
+// the compiler crashes when refering to `Storable` in a `derive` declaration.
+// Therefore we export the `iTask` class explicitly
 // import qualified iTasks as I
 from iTasks import class iTask
 from iTasks import generic gEq, generic gDefault, generic JSONDecode, generic JSONEncode, generic gText, generic gEditor
