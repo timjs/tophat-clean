@@ -1,0 +1,7 @@
+[Project]
+Name = "main"
+Version = "0.1.0"
+Authors = []
+
+[Executable]
+Main = "Test"
