@@ -108,17 +108,14 @@ where
 // Parallels ///////////////////////////////////////////////////////////////////
 
 
-// Parallel
 (<&>) infixr 4 :: (Task a) (Task b) -> Task ( a, b ) | Storable a & Storable b
 (<&>) x y = (-&&-) x y
 
 
-// Parallel prefere left
 (<&) infixl 4 :: (Task a) (Task b) -> Task a | Storable a & Storable b
 (<&) x y = (-||) x y
 
 
-// Parallel prefere right
 (&>) infixr 4 :: (Task a) (Task b) -> Task b | Storable a & Storable b
 (&>) x y = (||-) x y
 
@@ -127,14 +124,12 @@ where
 // Choices /////////////////////////////////////////////////////////////////////
 
 
-// Internal choice
 (<|>) infixr 3 :: (Task a) (Task a) -> Task a | Storable a
 (<|>) x y = (-||-) x y
 
 
-// // External choice
-// (<?>) infixr 3 :: (Task a) (Task a) -> Task a | Storable a
-// (<?>) fst snd = return () >?> [ ( "Left" , always, const fst ), (  "Right", always, const snd ) ]
+(<?>) infixr 3 :: (Task a) (Task a) -> Task a | Storable a
+(<?>) fst snd = 'I'.return () >?> [ ( "Left" , always, const fst ), (  "Right", always, const snd ) ]
 
 
 

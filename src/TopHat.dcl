@@ -48,8 +48,6 @@ select :: Message (List a) (Ref (List a)) -> Task (List a) | Storable a
 
 always :== const True
 
-// Steps //
-
 (>>>) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Storable a & Storable b
 (>>=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Storable a & Storable b
 
@@ -67,7 +65,7 @@ always :== const True
 // Choices /////////////////////////////////////////////////////////////////////
 
 (<|>) infixr 3 :: (Task a) (Task a) -> Task a | Storable a
-// (<?>) infixr 3 :: (Task a) (Task a) -> Task a | Storable a
+(<?>) infixr 3 :: (Task a) (Task a) -> Task a | Storable a
 
 
 // Fail ////////////////////////////////////////////////////////////////////////
