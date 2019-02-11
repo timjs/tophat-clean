@@ -4,9 +4,14 @@ implementation module TopHat
 import Basics
 
 // import iTasks
+
 import qualified iTasks as I
+from iTasks import -&&-, -||-, -||, ||-
+
 from iTasks import class toPrompt, instance toPrompt String
 from iTasks import class Startable, instance Startable (Task a)
+from iTasks import class Functor, instance Functor Task
+from iTasks import class TApplicative, instance TApplicative Task
 
 
 
@@ -15,15 +20,16 @@ from iTasks import class Startable, instance Startable (Task a)
 
 //XXX: Needs reimport because of weird bug using qualified import...
 class Storable a | 'I'.iTask a
+
+
 :: Ref a :== 'I'.Shared a
+
+
 :: Task a :== 'I'.Task a
 
 
 
-// Basic combinators ///////////////////////////////////////////////////////////
-
-
-// Editors //
+// Editors /////////////////////////////////////////////////////////////////////
 
 
 view :: Message a -> Task a | Storable a
@@ -38,7 +44,8 @@ enter :: Message -> Task a | Storable a
 enter label = 'I'.enterInformation label []
 
 
-// Shares //
+
+// References //////////////////////////////////////////////////////////////////
 
 
 // ref :: Message a -> Task (Ref a) | Storable a
@@ -63,6 +70,50 @@ update label ref = 'I'.updateSharedInformation label [] ref
 
 select :: Message (List a) (Ref (List a)) -> Task (List a) | Storable a
 select label default ref = 'I'.updateMultipleChoiceWithShared label [] ref default
+
+
+
+// Steps ///////////////////////////////////////////////////////////////////////
+
+
+// Parallels ///////////////////////////////////////////////////////////////////
+
+
+// Parallel
+(<&>) infixr 4 :: (Task a) (Task b) -> Task ( a, b ) | Storable a & Storable b
+(<&>) x y = (-&&-) x y
+
+
+// Parallel prefere left
+(<&) infixl 4 :: (Task a) (Task b) -> Task a | Storable a & Storable b
+(<&) x y = (-||) x y
+
+
+// Parallel prefere right
+(&>) infixr 4 :: (Task a) (Task b) -> Task b | Storable a & Storable b
+(&>) x y = (||-) x y
+
+
+
+// Choices /////////////////////////////////////////////////////////////////////
+
+
+// Internal choice
+(<|>) infixr 3 :: (Task a) (Task a) -> Task a | Storable a
+(<|>) x y = (-||-) x y
+
+
+// // External choice
+// (<?>) infixr 3 :: (Task a) (Task a) -> Task a | Storable a
+// (<?>) fst snd = return () >?> [ ( "Left" , always, const fst ), (  "Right", always, const snd ) ]
+
+
+
+// Fail ////////////////////////////////////////////////////////////////////////
+
+
+fail :: Task a
+fail = 'I'.transform (\_ -> 'I'.NoValue) ('I'.return ())
 
 
 
