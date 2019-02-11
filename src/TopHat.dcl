@@ -85,6 +85,11 @@ always :== const True
 
 // Fail ////////////////////////////////////////////////////////////////////////
 
+//NOTE:
+// TopHat tasks of the form
+//    t_1 >>= \x. if x then t_2 else fail
+// Should be translated to
+//    t_1 >>* [ ( id, const t_2 ) ]
 fail :: Task a
 
 

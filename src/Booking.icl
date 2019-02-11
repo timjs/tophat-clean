@@ -85,7 +85,11 @@ enter_passengers :: Task (List Passenger)
 enter_passengers =
   enter "Passenger details" >?*
     [ ( "Continue", all valid &&& any adult &&& not o empty, pure ) ]
-
+  // enter "Passenger details" >?= \ps ->
+  //   if (all valid ps && any adult ps && not (empty ps))
+  //     (pure ps)
+  //     (fail)
+  //
 
 enter_flight :: Task Flight
 enter_flight =
