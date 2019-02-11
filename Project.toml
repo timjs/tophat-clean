@@ -4,4 +4,4 @@ Version = "0.1.0"
 Authors = []
 
 [Executable]
-Main = "Booking"
+Main = "Clicks"
