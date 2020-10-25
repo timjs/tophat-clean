@@ -47,10 +47,10 @@ transform :: (a -> b) (Task a) -> Task b
 
 // Steps //
 
-(>>+) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Encodable a
+(>>*) infixl 1 :: (Task a) (List ( a -> Bool, a -> Task b )) -> Task b | Encodable a
 (>>=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Encodable a
 
-(>?+) infixl 1 :: (Task a) (List ( Tag, a -> Bool, a -> Task b )) -> Task b | Encodable a
+(>?*) infixl 1 :: (Task a) (List ( Tag, a -> Bool, a -> Task b )) -> Task b | Encodable a
 (>?=) infixl 1 :: (Task a) (a -> Task b) -> Task b | Encodable a
 
 

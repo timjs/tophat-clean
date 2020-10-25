@@ -66,7 +66,7 @@ adult p = p.age >= 18
 
 enter_passengers :: Task (List Passenger)
 enter_passengers =
-  enter "Passenger details" >?+
+  enter "Passenger details" >?*
     [ ( "Continue", all valid &&& any adult &&& not o isEmpty, done ) ]
   // enter "Passenger details" >?= \ps ->
   //   if (all valid ps && any adult ps && not (empty ps))
@@ -76,12 +76,12 @@ enter_passengers =
 
 enter_flight :: Task Flight
 enter_flight =
-  enter "Flight details" >?+
+  enter "Flight details" >?*
     [ ( "Continue", always, done ) ]
 
 choose_seats :: Int -> Task (List Seat)
 choose_seats n =
-  pick "Pick a seat" [] free_seat_store >?+
+  pick "Pick a seat" [] free_seat_store >?*
     [ ( "Continue"
       , \seats -> length seats == n
       , \seats -> free_seat_store <<= removeElems seats >>= \_ -> done seats
